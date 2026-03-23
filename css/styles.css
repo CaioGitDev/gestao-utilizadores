@@ -1,0 +1,121 @@
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --color-primary:    #005a9c;
+  --color-primary-dk: #003f6e;
+  --color-success:    #28a745;
+  --color-warning:    #ffc107;
+  --color-danger:     #dc3545;
+  --color-bg:         #f4f6f9;
+  --color-card:       #ffffff;
+  --color-text:       #333333;
+  --color-text-muted: #6c757d;
+  --radius:           8px;
+  --shadow:           0 2px 12px rgba(0,0,0,0.08);
+  --transition:       0.25s ease;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+}
+
+/* ── Header ─────────────────────────────────── */
+.app-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.header-brand   { display: flex; align-items: center; gap: 10px; }
+.header-icon    { font-size: 1.8rem; }
+.header-title   { font-size: 1.25rem; font-weight: 700; }
+.header-subtitle {
+  font-size: 0.8rem; opacity: 0.75;
+  padding: 2px 8px;
+  border-left: 1px solid rgba(255,255,255,0.4);
+}
+
+/* ── Badge de autenticação ───────────────────── */
+.auth-badge {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.8rem;
+  background: rgba(255,255,255,0.15);
+  padding: 5px 12px; border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+.auth-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-warning); animation: pulse 1.5s infinite; }
+.auth-badge.auth-ok   .auth-dot { background: var(--color-success); animation: none; }
+.auth-badge.auth-fail .auth-dot { background: var(--color-danger);  animation: none; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* ── Tabs de navegação ───────────────────────── */
+.tab-nav {
+  background: var(--color-card);
+  border-bottom: 2px solid var(--color-bg);
+  padding: 0 28px;
+  display: flex;
+  gap: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.tab-btn {
+  padding: 12px 20px;
+  border: none; background: transparent;
+  font-size: 0.9rem; font-weight: 500;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: color var(--transition), border-color var(--transition);
+}
+.tab-btn:hover  { color: var(--color-primary); }
+.tab-btn.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+
+/* ── Conteúdo principal ──────────────────────── */
+.main-content { max-width: 1280px; margin: 32px auto; padding: 0 20px; }
+
+/* ── Card ────────────────────────────────────── */
+.card { background: var(--color-card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 24px; }
+.card-title { font-size: 1rem; font-weight: 600; color: var(--color-primary); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid var(--color-bg); display: flex; align-items: center; gap: 8px; }
+.card-subtitle { font-size: 0.78rem; color: var(--color-text-muted); font-weight: 400; margin-left: auto; }
+
+/* ── Loader ──────────────────────────────────── */
+.loader-overlay {
+  position: fixed; inset: 0;
+  background: rgba(255,255,255,0.75);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 9999; backdrop-filter: blur(3px);
+}
+.loader-overlay.hidden { display: none; }
+.loader-spinner { width: 52px; height: 52px; border: 5px solid var(--color-bg); border-top-color: var(--color-primary); border-radius: 50%; animation: spin 0.75s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loader-text { margin-top: 14px; color: var(--color-primary); font-weight: 600; }
+
+/* ── Notificações (toast) ────────────────────── */
+#notification-container { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 10000; }
+.toast { display: flex; align-items: flex-start; gap: 10px; min-width: 280px; max-width: 380px; padding: 14px 16px; border-radius: var(--radius); box-shadow: 0 4px 20px rgba(0,0,0,0.15); color: #fff; font-size: 0.875rem; animation: slideIn 0.3s ease; cursor: pointer; }
+.toast.success { background: var(--color-success); }
+.toast.error   { background: var(--color-danger); }
+.toast.info    { background: var(--color-primary); }
+.toast.warning { background: var(--color-warning); color: #333; }
+.toast-icon    { font-size: 1.1rem; flex-shrink: 0; }
+.toast-body    { flex: 1; }
+.toast-title   { font-weight: 700; margin-bottom: 2px; }
+.toast-message { opacity: 0.9; line-height: 1.4; }
+@keyframes slideIn { from { transform: translateX(110%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* ── Badges de status ────────────────────────── */
+.status-badge { padding: 2px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; }
+.status-badge.active   { background: #d4edda; color: #155724; }
+.status-badge.inactive { background: #f8d7da; color: #721c24; }
+
+/* ── Tab panels ──────────────────────────────── */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }

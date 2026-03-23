@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Utilizadores IPO</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn3.devexpress.com/jslib/20.1.7/css/dx.light.css"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div id="app-container">
+
+      <!-- validação de autenticação -->
+       
+      <!-- LOADER -->
+
+      <!-- navegação por TAB -->
+       <nav class="tab-nav" id="tab-nav" style="display: none;">
+          <button class="tab-btn active" data-tab="users"> Utilizadores </button>
+          <button class="tab-btn" data-tab="categorias"> Categorias </button>
+       </nav>
+
+      <main id="main-content" class="main-content"></main>
+
+      <div id="notification-container"></div>
+    </div>
+
+    <!-- scripts -->
+    <script src="https://cdn3.devexpress.com/jslib/20.1.7/js/dx.all.js"></script>
+    <!-- import/export isso torna o js modular ES6 modules  -->
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

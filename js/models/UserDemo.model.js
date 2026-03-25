@@ -13,10 +13,10 @@ export class UserDemo {
 
   constructor(data = {}) {
     this.#id = data.id ?? null;
-    this.#numMec = data.numMec ?? null;
-    this.#nome = data.nome ?? "";
-    this.#email = data.email ?? "";
-    this.#categoriaId = data.categoriaId ?? 1;
+    this.numMec = data.numMec ?? null;
+    this.nome = data.nome ?? "";
+    this.email = data.email;
+    this.categoriaId = data.categoriaId ?? 1;
     this.#ativo = data.ativo ?? true;
     this.#dataInicioFuncoes = data.dataInicioFuncoes
       ? new Date(data.dataInicioFuncoes)
@@ -69,12 +69,47 @@ export class UserDemo {
     return partes.length > 1 ? `${partes[partes.length - 1]}` : partes[0];
   }
 
-  // SETTERS
-  set email(value) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(value)) throw new Error("Email inválido.");
+  // ── Setters com validação ──────────────────────────────────
+  set numMec(value) {
+    const n = parseInt(value, 10);
+    if (isNaN(n) || n <= 0) throw new Error("Número mecanográfico inválido.");
+    this.#numMec = n;
+  }
 
-    this.#email = value.toLowerCase().trim();
+  set nome(value) {
+    if (typeof value !== "string" || value.trim().length < 2) {
+      throw new Error("Nome deve ter pelo menos 2 caracteres.");
+    }
+    this.#nome = value.trim();
+  }
+
+  set email(value) {
+     const trimmed    = typeof value === 'string' ? value.trim() : '';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmed)) throw new Error('Email inválido.');
+    this.#email = trimmed.toLowerCase();
+  }
+
+  set categoriaId(value) {
+    this.#categoriaId = value !== undefined ? value : null;
+  }
+  set ativo(value) {
+    this.#ativo = Boolean(value);
+  }
+
+  set dataInicioFuncoes(value) {
+    if (!value) throw new Error("Data de início de funções é obrigatória.");
+    this.#dataInicioFuncoes = new Date(value);
+  }
+
+  set dataFimFuncoes(value) {
+    this.#dataFimFuncoes = value ? new Date(value) : null;
+  }
+
+  set criadoPor(value) {
+    if (!value || String(value).trim() === "")
+      throw new Error('"Criado por" é obrigatório.');
+    this.#criadoPor = String(value).trim();
   }
 
   toApiPayload(includeId = true) {
@@ -102,9 +137,7 @@ export class UserDemo {
     return Array.isArray(arr) ? arr.map(UserDemo.fromApi) : [];
   }
 
-
-  toString(){
+  toString() {
     return `User(id=${this.#id}, numMec= ${this.#numMec}, nome="${this.#nome}")`;
   }
-
 }

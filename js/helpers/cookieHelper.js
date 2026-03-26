@@ -13,20 +13,15 @@ export function setCookie(
   let expires = '';
   if(days > 0){
     const date = new Date();
-    date.setTime(date.getDate() + days * 24 * 60 * 60 * 1000); // days to ms
+    date.setTime(date.getTime() + days * 86400000); 
     expires = `; expires=${date.toUTCString()}`;
   }
 
-  document.cookie = `${name}=${encodeURIComponent(value)};${expires}; path=${path}; SameSite=Strict`;
-  log.debug(`Cookie definido: ${name}`, {
-    days,
-    path
-  });
-
+  document.cookie = `${name}=${encodeURIComponent(value)}${expires}; path=${path}; SameSite=Strict`;
 }
 
 export function getCookie(name){
-  const key = `${name}=`; // p4e_cookie
+  const key = `${name}=`;
   for (let cookie of document.cookie.split(';')){
     const trimmend = cookie.trim();
     if(trimmend.startsWith(key)){
@@ -38,7 +33,8 @@ export function getCookie(name){
 }
 
 export function deleteCookie(name, path='/'){
-  document.cookie = `${name}=${encodeURIComponent(value)}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}; SameSite=Strict`;
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}; SameSite=Strict`;
+  log.debug(`Cookie removido: ${name}`);
 }
 
 

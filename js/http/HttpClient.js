@@ -1,10 +1,6 @@
 import { getLogger } from "../helpers/logger.js";
+import { createHttpError } from "../helpers/errorHandler.js";
 import { getCookie } from "../helpers/cookieHelper.js";
-import {
-  tryCatch,
-  ErrorType,
-  createHttpError,
-} from "../helpers/errorHandler.js";
 import { AUTH_COOKIE_NAME } from "../services/AuthService.js";
 
 const log = getLogger("HttpClient");
@@ -23,35 +19,21 @@ export class HttpClient {
     this.#timeout = timeout;
   }
 
-  // open/closed
   #buildHeaders(extraHeaders = {}) {
     const token = getCookie(AUTH_COOKIE_NAME);
-    const authHeader = token
-      ? {
-          Authorization: `Bearer ${token}`,
-        }
-      : {};
-
-    return {
-      ...DEFAULT_HEADERS,
-      ...authHeader,
-      ...extraHeaders,
-    };
+    const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+    return { ...DEFAULT_HEADERS, ...authHeader, ...extraHeaders };
   }
 
   async #fetchWithTimeout(url, options) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.#timeout);
-
     try {
-      return await fetch(url, {
-        ...options,
-        signal: controller.signal,
-      });
+      return await fetch(url, { ...options, signal: controller.signal });
     } catch (error) {
       if (error.name === "AbortError") {
         throw new Error(
-          `Pedido cancelado: timeout de ${this.#timeout} excedido.`,
+          `Pedido cancelado: timeout de ${this.#timeout}ms excedido.`,
         );
       }
       throw error;
@@ -69,14 +51,12 @@ export class HttpClient {
       ...(body !== null ? { body: JSON.stringify(body) } : {}),
     };
 
-    log.debug(`-> ${method} ${url}`, body ?? undefined);
+    log.debug(`→ ${method} ${url}`, body ?? undefined);
     const response = await this.#fetchWithTimeout(url, options);
-    log.debug(`<- ${response.status} ${response.statusText}`);
+    log.debug(`← ${response.status} ${response.statusText}`);
 
     if (!response.ok) throw createHttpError(response);
-
     if (response.status === 204) return null;
-
     return response.json();
   }
 

@@ -48,8 +48,9 @@ export class GenericService extends BaseService {
   async getAll() {
     this.#log.info(`GET ${this.#endpoint}`);
     const raw = await this._http.get(this.#endpoint);
-    if (!Array.isArray(raw)) return [];
-    return raw.map(this.#fromApi);
+
+    const arr = Array.isArray(raw) ? raw : (raw?.data ?? []);
+    return arr.map(this.#fromApi);
   }
 
   async getById(id) {
@@ -69,7 +70,7 @@ export class GenericService extends BaseService {
     const raw = await this._http.put(`${this.#endpoint}/${id}`, payload);
     return raw ? this.#fromApi(raw) : null;
   }
-  
+
   async remove(id) {
     this.#log.info(`DELETE ${this.#endpoint}/${id}`);
     return this._http.delete(`${this.#endpoint}/${id}`);

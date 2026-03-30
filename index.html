@@ -1,36 +1,45 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Utilizadores IPO</title>
-
+    <title>Utilizadores Demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link
       rel="stylesheet"
-      href="https://cdn3.devexpress.com/jslib/20.1.7/css/dx.light.css"
+      type="text/css"
+      href="https://cdn3.devexpress.com/jslib/25.2.5/css/dx.fluent.blue.light.css"
     />
-    <link rel="stylesheet" href="css/styles.css" />
+    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/25.2.5/js/dx.all.js"></script>
+    <script src="https://unpkg.com/devextreme-aspnet-data@5.0.0/js/dx.aspnet.data.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/styles.css" />
   </head>
-  <body>
+  <body class="dx-viewport">
     <div id="app-container">
-
       <!-- validação de autenticação -->
-       
+
       <!-- LOADER -->
 
       <!-- navegação por TAB -->
-       <nav class="tab-nav" id="tab-nav" style="display: none;">
-          <button class="tab-btn active" data-tab="users"> Utilizadores </button>
-          <button class="tab-btn" data-tab="categorias"> Categorias </button>
-       </nav>
+      <nav class="tab-nav" id="tab-nav" style="display: none">
+        <button class="tab-btn active" data-tab="users">Utilizadores</button>
+        <button class="tab-btn" data-tab="categorias">Categorias</button>
+      </nav>
 
-      <main id="main-content" class="main-content"></main>
+      <main id="main-content" class="main-content">
+        <div class="card">
+          <div class="card-title">Utilizadores</div>
+          <div id="userDemoGrid"></div>
+        </div>
+      </main>
 
       <div id="notification-container"></div>
     </div>
 
-    <!-- scripts -->
-    <script src="https://cdn3.devexpress.com/jslib/20.1.7/js/dx.all.js"></script>
     <!-- import/export isso torna o js modular ES6 modules  -->
     <script type="module" src="app.js"></script>
   </body>

@@ -43,7 +43,7 @@ export class HttpClient {
   }
 
   async #request(method, endpoint, body = null, extraHeaders = {}) {
-    const url = `${this.#baseUrl}${endpoint}`;
+    const url = `${this.#baseUrl}/${endpoint}`;
     const headers = this.#buildHeaders(extraHeaders);
     const options = {
       method,
